@@ -1,0 +1,13 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+.container {
+    margin-top: 50px;
+}
+select {
+    margin-bottom: 20px;
+}
+#co2Chart, #methaneChart, #tempChart {
+    margin-bottom: 40px;
+}
