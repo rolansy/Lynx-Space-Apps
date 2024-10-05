@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Slider</title>
+</head>
+<body>
+    <video id="video" width="640" height="360" controls>
+        <source src="data space/globaltempslider.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <br>
+    <input type="range" id="yearSlider" min="1889" max="2023" value="1889">
+    <span id="yearDisplay">1889</span>
+
+    <script>
+        const video = document.getElementById('video');
+        const slider = document.getElementById('yearSlider');
+        const yearDisplay = document.getElementById('yearDisplay');
+
+        // Total duration of the video in seconds
+        const videoDuration = 33;
+        // Range of years
+        const startYear = 1889;
+        const endYear = 2023;
+        const totalYears = endYear - startYear;
+
+        slider.addEventListener('input', function() {
+            const selectedYear = parseInt(slider.value);
+            yearDisplay.textContent = selectedYear;
+
+            // Calculate the corresponding video time
+            const videoTime = ((selectedYear - startYear) / totalYears) * videoDuration;
+            video.currentTime = videoTime;
+        });
+    </script>
+</body>
+</html>
