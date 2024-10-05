@@ -4,20 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Slider</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #video {
+            display: none; /* Hide the video element */
+        }
+        #canvas {
+            width: 640px;
+            height: 360px;
+            background-color: #000;
+        }
+        #customControls {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #yearSlider {
+            width: 300px;
+            margin: 0 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 10px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        #yearSlider:hover {
+            opacity: 1;
+        }
+        #yearSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4CAF50;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        #yearSlider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #4CAF50;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        #playPauseButton {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #yearDisplay {
+            font-size: 18px;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <video id="video" width="640" height="360" controls>
+    <video id="video">
         <source src="data space/globaltempslider.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <br>
-    <input type="range" id="yearSlider" min="1889" max="2023" value="1889">
-    <span id="yearDisplay">1889</span>
+    <canvas id="canvas" width="640" height="360"></canvas>
+    <div id="customControls">
+        <button id="playPauseButton">Play</button>
+        <input type="range" id="yearSlider" min="1889" max="2023" value="1889">
+        <span id="yearDisplay">1889</span>
+    </div>
 
     <script>
         const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
         const slider = document.getElementById('yearSlider');
         const yearDisplay = document.getElementById('yearDisplay');
+        const playPauseButton = document.getElementById('playPauseButton');
 
         // Total duration of the video in seconds
         const videoDuration = 33;
@@ -26,6 +103,10 @@
         const endYear = 2023;
         const totalYears = endYear - startYear;
 
+        function drawFrame() {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        }
+
         slider.addEventListener('input', function() {
             const selectedYear = parseInt(slider.value);
             yearDisplay.textContent = selectedYear;
@@ -33,7 +114,30 @@
             // Calculate the corresponding video time
             const videoTime = ((selectedYear - startYear) / totalYears) * videoDuration;
             video.currentTime = videoTime;
+            drawFrame();
         });
+
+        playPauseButton.addEventListener('click', function() {
+            if (video.paused) {
+                video.play();
+                playPauseButton.textContent = 'Pause';
+            } else {
+                video.pause();
+                playPauseButton.textContent = 'Play';
+            }
+        });
+
+        video.addEventListener('play', function() {
+            const interval = setInterval(function() {
+                if (video.paused || video.ended) {
+                    clearInterval(interval);
+                }
+                drawFrame();
+            }, 1000 / 30); // Draw at 30fps
+        });
+
+        video.addEventListener('pause', drawFrame);
+        video.addEventListener('seeked', drawFrame);
     </script>
 </body>
 </html>
