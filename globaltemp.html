@@ -95,28 +95,28 @@
         const slider = document.getElementById('yearSlider');
         const yearDisplay = document.getElementById('yearDisplay');
         const playPauseButton = document.getElementById('playPauseButton');
-
+    
         // Total duration of the video in seconds
         const videoDuration = 33;
         // Range of years
         const startYear = 1889;
         const endYear = 2023;
         const totalYears = endYear - startYear;
-
+    
         function drawFrame() {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         }
-
+    
         slider.addEventListener('input', function() {
             const selectedYear = parseInt(slider.value);
             yearDisplay.textContent = selectedYear;
-
+    
             // Calculate the corresponding video time
             const videoTime = ((selectedYear - startYear) / totalYears) * videoDuration;
             video.currentTime = videoTime;
             drawFrame();
         });
-
+    
         playPauseButton.addEventListener('click', function() {
             if (video.paused) {
                 video.play();
@@ -126,7 +126,7 @@
                 playPauseButton.textContent = 'Play';
             }
         });
-
+    
         video.addEventListener('play', function() {
             const interval = setInterval(function() {
                 if (video.paused || video.ended) {
@@ -135,9 +135,16 @@
                 drawFrame();
             }, 1000 / 30); // Draw at 30fps
         });
-
+    
         video.addEventListener('pause', drawFrame);
         video.addEventListener('seeked', drawFrame);
+    
+        video.addEventListener('timeupdate', function() {
+            // Calculate the corresponding year based on the current video time
+            const currentYear = Math.round((video.currentTime / videoDuration) * totalYears + startYear);
+            slider.value = currentYear;
+            yearDisplay.textContent = currentYear;
+        });
     </script>
 </body>
 </html>
