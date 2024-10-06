@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know Your Carbon Footprint</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background: black;
+            color: white;
+            position: relative;
+        }
+        h1 {
+            color: #FFD700;
+            text-align: center;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+            border: 2px solid white;
+        }
+        .question {
+            display: none;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 5px 0;
+            text-align: left;
+        }
+        button {
+            background-color: #2E8B57;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #246b47;
+        }
+        .navigation {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .result {
+            display: none;
+            text-align: center;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        @keyframes moveStar {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100vw, 100vh); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Know Your Carbon Footprint</h1>
+        <div id="quiz-container">
+            <div id="start-screen">
+                <button id="start-btn" onclick="startQuiz()">START</button>
+            </div>
+            <div class="question" id="question1">
+                <p>1. How do you usually travel for short distances (up to 5 km)?</p>
+                <label><input type="radio" name="q1" value="3"> a) Car</label>
+                <label><input type="radio" name="q1" value="2"> b) Bus or public transport</label>
+                <label><input type="radio" name="q1" value="1"> c) Bicycle</label>
+                <label><input type="radio" name="q1" value="0"> d) Walking</label>
+            </div>
+            <div class="question" id="question2">
+                <p>2. When shopping for groceries, how do you prefer to get your food?</p>
+                <label><input type="radio" name="q2" value="3"> a) Pre-packaged and processed foods</label>
+                <label><input type="radio" name="q2" value="2"> b) Fresh, local produce</label>
+                <label><input type="radio" name="q2" value="1"> c) Organic products</label>
+                <label><input type="radio" name="q2" value="0"> d) I grow my own food</label>
+            </div>
+            <div class="question" id="question3">
+                <p>3. How often do you use single-use plastics (like bags, bottles, straws)?</p>
+                <label><input type="radio" name="q3" value="3"> a) Frequently</label>
+                <label><input type="radio" name="q3" value="2"> b) Occasionally</label>
+                <label><input type="radio" name="q3" value="1"> c) Rarely</label>
+                <label><input type="radio" name="q3" value="0"> d) Never</label>
+            </div>
+            <div class="question" id="question4">
+                <p>4. What type of energy do you prefer to use in your home?</p>
+                <label><input type="radio" name="q4" value="3"> a) Fossil fuels (natural gas, coal)</label>
+                <label><input type="radio" name="q4" value="2"> b) Electricity from non-renewable sources</label>
+                <label><input type="radio" name="q4" value="1"> c) Renewable energy (solar, wind)</label>
+                <label><input type="radio" name="q4" value="0"> d) I don’t have a preference</label>
+            </div>
+            <div class="question" id="question5">
+                <p>5. How often do you recycle or compost?</p>
+                <label><input type="radio" name="q5" value="3"> a) Never</label>
+                <label><input type="radio" name="q5" value="2"> b) Occasionally</label>
+                <label><input type="radio" name="q5" value="1"> c) Regularly</label>
+                <label><input type="radio" name="q5" value="0"> d) I try to recycle everything</label>
+            </div>
+            <div class="question" id="question6">
+                <p>6. What’s your preferred mode of transportation for longer trips?</p>
+                <label><input type="radio" name="q6" value="3"> a) Airplane</label>
+                <label><input type="radio" name="q6" value="2"> b) Train</label>
+                <label><input type="radio" name="q6" value="1"> c) Car</label>
+                <label><input type="radio" name="q6" value="0"> d) Bus</label>
+            </div>
+            <div class="question" id="question7">
+                <p>7. How do you feel about climate change?</p>
+                <label><input type="radio" name="q7" value="3"> a) I don’t think it’s a big deal</label>
+                <label><input type="radio" name="q7" value="2"> b) I’m concerned but don’t take action</label>
+                <label><input type="radio" name="q7" value="1"> c) I actively try to reduce my carbon footprint</label>
+                <label><input type="radio" name="q7" value="0"> d) I advocate for environmental change</label>
+            </div>
+            <div class="question" id="question8">
+                <p>8. What kind of products do you usually buy?</p>
+                <label><input type="radio" name="q8" value="3"> a) Fast fashion or cheap imports</label>
+                <label><input type="radio" name="q8" value="2"> b) High-quality, durable goods</label>
+                <label><input type="radio" name="q8" value="1"> c) Eco-friendly or sustainable products</label>
+                <label><input type="radio" name="q8" value="0"> d) I buy whatever is on sale</label>
+            </div>
+            <div class="question" id="question9">
+                <p>9. How do you manage your energy use at home?</p>
+                <label><input type="radio" name="q9" value="3"> a) I don’t pay much attention to it</label>
+                <label><input type="radio" name="q9" value="2"> b) I turn off lights and unplug devices when not in use</label>
+                <label><input type="radio" name="q9" value="1"> c) I use energy-efficient appliances</label>
+                <label><input type="radio" name="q9" value="0"> d) I’ve installed smart home technology</label>
+            </div>
+            <div class="question" id="question10">
+                <p>10. How often do you participate in environmental initiatives (like clean-up drives or tree planting)?</p>
+                <label><input type="radio" name="q10" value="3"> a) Never</label>
+                <label><input type="radio" name="q10" value="2"> b) Occasionally</label>
+                <label><input type="radio" name="q10" value="1"> c) Regularly</label>
+                <label><input type="radio" name="q10" value="0"> d) I organize such events</label>
+            </div>
+        </div>
+        <div class="navigation">
+            <button id="prev-btn" onclick="prevQuestion()" style="display:none;">Previous</button>
+            <button id="next-btn" onclick="nextQuestion()" style="display:none;">Next</button>
+            <button id="submit-btn" onclick="submitQuiz()" style="display:none;">Submit</button>
+        </div>
+        <div class="result" id="result">
+            <h2>Your Carbon Footprint Score</h2>
+            <p id="score"></p>
+            <p id="feedback"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentQuestion = -1;
+            const questions = document.querySelectorAll('.question');
+            const totalQuestions = questions.length;
+
+            function showQuestion(index) {
+                questions.forEach((question, i) => {
+                    question.style.display = i === index ? 'block' : 'none';
+                });
+                document.getElementById('prev-btn').style.display = index === 0 ? 'none' : 'inline-block';
+                document.getElementById('next-btn').style.display = index === totalQuestions - 1 ? 'none' : 'inline-block';
+                document.getElementById('submit-btn').style.display = index === totalQuestions - 1 ? 'inline-block' : 'none';
+            }
+
+            function nextQuestion() {
+                if (currentQuestion < totalQuestions - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                }
+            }
+
+            function prevQuestion() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    showQuestion(currentQuestion);
+                }
+            }
+
+            function startQuiz() {
+                document.getElementById('start-screen').style.display = 'none';
+                currentQuestion = 0;
+                showQuestion(currentQuestion);
+                document.getElementById('next-btn').style.display = 'inline-block';
+            }
+
+            function submitQuiz() {
+                let score = 0;
+                questions.forEach((question, index) => {
+                    const selectedOption = question.querySelector('input[type="radio"]:checked');
+                    if (selectedOption) {
+                        score += parseInt(selectedOption.value);
+                    }
+                });
+
+                document.getElementById('quiz-container').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('score').innerText = `Your score is: ${score}`;
+
+                let feedback = '';
+                if (score <= 10) {
+                    feedback = 'Your carbon footprint is very low. Great job!';
+                } else if (score <= 20) {
+                    feedback = 'Your carbon footprint is moderate. There is room for improvement.';
+                } else {
+                    feedback = 'Your carbon footprint is high. Consider making more eco-friendly choices.';
+                }
+                document.getElementById('feedback').innerText = feedback;
+            }
+
+            document.getElementById('start-btn').addEventListener('click', startQuiz);
+            document.getElementById('next-btn').addEventListener('click', nextQuestion);
+            document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+            document.getElementById('submit-btn').addEventListener('click', submitQuiz);
+
+            // Starry background
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                star.style.animationName = 'twinkle, moveStar';
+                star.style.animationTimingFunction = 'ease-in-out';
+                star.style.animationIterationCount = 'infinite';
+                document.body.appendChild(star);
+            }
+        });
+    </script>
+</body>
+</html>

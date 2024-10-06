@@ -17,16 +17,35 @@ const data = [{
     colorbar: {
         autotick: true,
         tickprefix: '',
-        title: '# Average\nTemperature,\n°C'
+        title: {
+            text: '# Average\nTemperature,\n°C',
+            font: {
+                family: 'Roboto, sans-serif',
+                size: 14,
+                color: 'white'
+            }
+        },
+        thickness: 20,
+        len: 0.5,
+        outlinewidth: 1,
+        outlinecolor: 'white',
+        tickfont: {
+            family: 'Roboto, sans-serif',
+            size: 12,
+            color: 'white'
+        }
     }
 }];
 
 const layout = {
-    title: 'Average land temperature in countries',
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)',
     geo: {
         showframe: false,
         showocean: true,
         oceancolor: 'rgb(0,255,255)',
+        landcolor: 'rgb(255, 255, 255)',
+        bgcolor: 'rgba(0,0,0,0)', // Make the background of the globe transparent
         projection: {
             type: 'orthographic',
             rotation: {
