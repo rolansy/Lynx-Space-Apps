@@ -60,18 +60,18 @@ Array(200).fill().forEach(addStar);
 
 // Background
 
-const spaceTexture = new THREE.TextureLoader().load('space.jpg');
+const spaceTexture = new THREE.TextureLoader().load('public/space.jpg');
 scene.background = spaceTexture;
 
 // Avatar
 
-const polarTexture = new THREE.TextureLoader().load('polar.jpeg');
+const polarTexture = new THREE.TextureLoader().load('public/polar.jpeg');
 
 const polar = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ map: polarTexture }));
 
 scene.add(polar);
 
-const indTexture = new THREE.TextureLoader().load('industrialisation.png');
+const indTexture = new THREE.TextureLoader().load('public/industrialisation.png');
 
 const ind = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ map: indTexture }));
 
@@ -79,8 +79,8 @@ scene.add(ind);
 
 // Moon
 
-const moonTexture = new THREE.TextureLoader().load('moon.jpg');
-const normalTexture = new THREE.TextureLoader().load('normal.jpg');
+const moonTexture = new THREE.TextureLoader().load('public/moon.jpg');
+const normalTexture = new THREE.TextureLoader().load('public/normal.jpg');
 
 const moon = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
