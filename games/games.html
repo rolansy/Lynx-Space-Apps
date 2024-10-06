@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            margin: 0 10px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: #ffeb3b;
+            transform: scale(1.1);
+        }
+        .games-button, .new-button {
+            position: absolute;
+            top: 10px;
+            padding: 10px 20px;
+            background: #ffeb3b;
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .games-button {
+            right: 10px;
+        }
+        .new-button {
+            right: 10px; /* Align with the games-button */
+            top: 60px; /* Adjust this value as needed to reposition */
+        }
+        .games-button:hover, .new-button:hover {
+            background: #ffc107;
+            transform: scale(1.1);
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 100px);
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="v.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <div class="navbar">
+        <a onclick="loadContent('water games/index2.html')">Water Saver</a>
+        <a onclick="loadContent('waste management.html')">Waste Management</a>
+        <a onclick="loadContent('../quiz/quiz.html')">Carbon Footprint Quiz</a>
+        <a onclick="loadContent('pledge.html')">Pledge</a>
+        <button class="games-button" onclick="window.location.href='../viewer/viewer.html'">Climate View</button>
+        <button class="new-button" onclick="loadContent('exp.html')">Experiences</button>
+    </div>
+    <iframe id="content-frame" src=""></iframe>
+
+    <script>
+        function loadContent(url) {
+            document.getElementById('content-frame').src = url;
+        }
+    </script>
+</body>
+</html>
