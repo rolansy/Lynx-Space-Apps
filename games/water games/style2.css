@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #e0f7fa;
+    overflow: hidden;
+    position: relative;
+}
+
+h1 {
+    color: #0288d1;
+}
+
+canvas {
+    background-color: #bbdefb;
+    border: 2px solid #0277bd;
+    margin: 20px auto;
+    display: block;
+}
+
+#score, #timer {
+    margin-top: 10px;
+    font-size: 24px;
+    color: #01579b;
+}
+
+#timer {
+    color: #d32f2f;
+}
+
+#gameOver {
+    font-size: 28px;
+    color: #d32f2f;
+    margin-top: 20px;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: moveClouds 10s linear infinite;
+}
+
+@keyframes moveClouds {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Ocean Waves */
+.ocean {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 100px;
+    background: rgba(0, 150, 255, 0.5);
+    border-radius: 50%;
+    animation: waveAnimation 4s linear infinite;
+}
+
+.wave:nth-child(2) {
+    animation: waveAnimation 4s linear infinite reverse;
+}
+
+@keyframes waveAnimation {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
