@@ -3,41 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Climate Change Explorer</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
-    <script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+    <title>Interactive 3D Earth with Stars</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+        #title {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: white;
+            z-index: 10;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        #loading {
+            animation: blink 1s infinite;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center mt-4">Climate Change Explorer (2000-2020)</h1>
+    <div id="title">Welcome to the <span id="loading">.....</span></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        // Set up the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add orbit controls for dragging
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableZoom = true; // Enable zooming
+
+        // Create Earth sphere
+        const earthTexture = new THREE.TextureLoader().load('https://threejs.org/examples/textures/land_ocean_ice_cloud_2048.jpg');
+        const earthGeometry = new THREE.SphereGeometry(5, 32, 32);
         
-        <!-- Dropdown to select continent -->
-        <div class="text-center">
-            <label for="continentSelect">Choose a Continent:</label>
-            <select id="continentSelect" class="form-select w-50 mx-auto">
-                <option value="Africa">Africa</option>
-                <option value="Asia">Asia</option>
-                <option value="Europe">Europe</option>
-                <option value="North America">North America</option>
-                <option value="South America">South America</option>
-                <option value="Australia">Australia</option>
-            </select>
-        </div>
+        const earthMaterial = new THREE.MeshStandardMaterial({ map: earthTexture });
+        const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        scene.add(earth);
 
-        <!-- Plot area for graphs -->
-        <div class="mt-5">
-            <div id="co2Chart"></div>
-            <div id="methaneChart"></div>
-            <div id="tempChart"></div>
-            <div id="mapChart" style="width: 100%; height: 600px;"></div>
-            <!-- Add this div for the earthquake map -->
-            <div id="myDiv" style="width: 100%; height: 600px;"></div>
-        </div>
-    </div>
+        // Create atmosphere
+        const atmosphereGeometry = new THREE.SphereGeometry(5.1, 32, 32);
+        const atmosphereMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00aaff,
+            transparent: true,
+            opacity: 0.2,
+            depthWrite: false
+        });
+        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+        scene.add(atmosphere);
 
-    <!-- Custom JS to handle data and plot -->
-    <script src="script.js"></script>
+        // Add stars to the background
+        function addStars() {
+            const starGeometry = new THREE.BufferGeometry();
+            const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
+
+            const starVertices = [];
+            for (let i = 0; i < 10000; i++) {
+                const x = (Math.random() - 0.5) * 2000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = (Math.random() - 0.5) * 2000;
+                starVertices.push(x, y, z);
+            }
+
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+        }
+        addStars();
+
+        // Set up lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 2); // Soft white light
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(0, 0, 10).normalize();
+        scene.add(directionalLight);
+
+        // Position the camera
+        camera.position.z = 15;
+
+        // Animate the scene
+        function animate() {
+            requestAnimationFrame(animate);
+            earth.rotation.y += 0.01; // Slow rotation of the Earth
+            controls.update(); // Required for OrbitControls
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Function to zoom in the Earth
+        function zoomInEarth() {
+            const zoomDuration = 4000; // Duration of the zoom in milliseconds
+            const zoomStart = camera.position.z;
+            const zoomEnd = 5; // Final zoom position
+
+            const startTime = performance.now();
+
+            function zoom() {
+                const elapsedTime = performance.now() - startTime;
+                const progress = Math.min(elapsedTime / zoomDuration, 1);
+                camera.position.z = zoomStart + (zoomEnd - zoomStart) * progress;
+
+                if (progress < 1) {
+                    requestAnimationFrame(zoom);
+                } else {
+                    fadeToNextPage();
+                }
+            }
+
+            zoom();
+        }
+
+        // Function to fade to the next page
+        function fadeToNextPage() {
+            document.body.style.transition = 'opacity 1s';
+            document.body.style.opacity = 0;
+
+            setTimeout(() => {
+                window.location.href = 'figma\\findex.html'; // Replace with the actual URL of the next page
+            }, 1000);
+        }
+
+        // Preload the next page for smoother transition
+        function preloadNextPage() {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = 'figma\\findex.html'; // Replace with the actual URL of the next page
+            document.head.appendChild(link);
+        }
+
+        // Preload the next page immediately
+        preloadNextPage();
+
+        // Variables to track scroll and inactivity
+        let lastScrollTime = performance.now();
+        let autoZoomTimeout;
+
+        // Function to handle scroll event
+        function onScroll(event) {
+            const delta = Math.sign(event.deltaY);
+            camera.position.z += delta * 0.5; // Adjust zoom speed as needed
+
+            if (camera.position.z <= 5) {
+                camera.position.z = 5;
+                fadeToNextPage();
+            }
+
+            lastScrollTime = performance.now();
+            clearTimeout(autoZoomTimeout);
+            autoZoomTimeout = setTimeout(checkInactivity, 5000);
+        }
+
+        // Function to check for inactivity
+        function checkInactivity() {
+            if (performance.now() - lastScrollTime >= 5000) {
+                zoomInEarth();
+            }
+        }
+
+        // Add scroll event listener
+        window.addEventListener('wheel', onScroll);
+
+        // Start the inactivity check
+        autoZoomTimeout = setTimeout(checkInactivity, 5000);
+    </script>
 </body>
 </html>
