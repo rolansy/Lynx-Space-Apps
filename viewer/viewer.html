@@ -27,6 +27,7 @@
             height: 100px;
             background: rgba(0, 0, 0, 0.5);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
         .navbar a {
             color: white;
@@ -41,6 +42,24 @@
         .navbar a:hover {
             background: rgba(255, 255, 255, 0.3);
             color: #ffeb3b;
+            transform: scale(1.1);
+        }
+        .games-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background: #ffeb3b;
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .games-button:hover {
+            background: #ffc107;
             transform: scale(1.1);
         }
         iframe {
@@ -60,6 +79,7 @@
         <a onclick="loadContent('../earthsat/earth ozone.html')">Ozone</a>
         <a onclick="loadContent('../earthsat/earth Sea Level.html')">Sea Level</a>
         <a onclick="loadContent('../avglandtemp/avglandtemp.html')">Global Average Temperature</a>
+        <button class="games-button" onclick="window.location.href='../games/games.html'">Games</button>
     </div>
     <iframe id="content-frame" src=""></iframe>
 
