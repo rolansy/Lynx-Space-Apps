@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Greener Future Through Clean Energy</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+        }
+        section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            transition: opacity 1s ease-in-out;
+        }
+        .scene1 {
+            background: url('scene1.png') no-repeat center center/cover;
+        }
+        .scene2 {
+            background: url('scene2.png') no-repeat center center/cover;
+        }
+        .scene3 {
+            background: url('scene3.jpg') no-repeat center center/cover;
+        }
+        .scene4 {
+            background: url('scene4.jpg') no-repeat center center/cover;
+        }
+        .scene5 {
+            background: url('scene5.jpg') no-repeat center center/cover;
+        }
+        .hidden {
+            opacity: 0;
+        }
+        .visible {
+            opacity: 1;
+        }
+        .narrator {
+            font-size: 2em;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+        .title {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <section class="scene1 hidden">
+        <div>
+            <div class="title">A Greener Future Through Clean Energy</div>
+            <div class="narrator">Welcome to the future—our future, where clean energy powers the world.</div>
+        </div>
+    </section>
+    <section class="scene2 hidden">
+        <div class="narrator">With the switch to solar, wind, and hydroelectric power, our cities now run entirely on renewable energy. Carbon emissions are a thing of the past.</div>
+    </section>
+    <section class="scene3 hidden">
+        <div class="narrator">The Earth's temperature rise has slowed. Clean air fills our lungs, and our health has never been better.</div>
+    </section>
+    <section class="scene4 hidden">
+        <div class="narrator">Nature is thriving again, as ecosystems heal and wildlife returns to health.</div>
+    </section>
+    <section class="scene5 hidden">
+        <div>
+            <div class="narrator">This is the world we’ve built—powered by clean energy, healthier and more sustainable than ever.</div>
+            <div class="footer">A Greener Future Through Clean Energy</div>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const scrollPosition = window.scrollY + window.innerHeight;
+            sections.forEach(section => {
+                if (section.offsetTop < scrollPosition) {
+                    section.classList.add('visible');
+                    section.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
