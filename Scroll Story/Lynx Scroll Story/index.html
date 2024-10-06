@@ -83,14 +83,14 @@
     <script type="module" src="/main.js"></script>
     <script>
       window.addEventListener('scroll', () => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-          const fadeOutDiv = document.getElementById('fade-out');
-          fadeOutDiv.style.opacity = 1;
-          setTimeout(() => {
-            window.location.href = 'https://spacelynx.vercel.app/viewer/viewer.html';
-          }, 1000);
-        }
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        const fadeOutDiv = document.getElementById('fade-out');
+        fadeOutDiv.style.opacity = 1;
+        setTimeout(() => {
+        window.location.href = 'https://spacelynx.vercel.app/viewer/viewer.html';
+        }, 1000);
+      }
       });
     </script>
-  </body>
-</html>
+    </body>
+  </html>
