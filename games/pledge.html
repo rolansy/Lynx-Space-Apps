@@ -4,17 +4,72 @@
   <meta charset="UTF-8">
   <title>Climate Change Pledge</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background-color: #e0f7fa; text-align: center; }
-    .pledge-container { max-width: 500px; margin: auto; background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-    .pledge-title { font-size: 28px; font-weight: bold; margin-bottom: 20px; color: #00796b; }
-    .pledge-option { margin: 15px 0; display: flex; align-items: center; cursor: pointer; transition: all 0.3s; }
-    .pledge-option:hover { transform: scale(1.05); }
-    .submit-btn { background-color: #00796b; color: white; padding: 12px 20px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; transition: background 0.3s; }
-    .submit-btn:hover { background-color: #004d40; }
-    .share-container { display: none; margin-top: 20px; }
-    .share-container p { font-size: 18px; color: #004d40; }
-    .progress-bar { background-color: #eeeeee; border-radius: 20px; margin-top: 20px; overflow: hidden; }
-    .progress { background-color: #00796b; height: 20px; width: 0%; transition: width 0.3s; }
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 20px; 
+      background: url('https://example.com/earth-background.jpg') no-repeat center center fixed; 
+      background-size: cover; 
+      text-align: center; 
+      color: #000000; /* Changed to dark color */
+    }
+    .pledge-container { 
+      max-width: 500px; 
+      margin: auto; 
+      background: rgba(255, 255, 255, 0.9); 
+      padding: 20px; 
+      border-radius: 10px; 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    }
+    .pledge-title { 
+      font-size: 28px; 
+      font-weight: bold; 
+      margin-bottom: 20px; 
+      color: #00796b; 
+    }
+    .pledge-option { 
+      margin: 15px 0; 
+      display: flex; 
+      align-items: center; 
+      cursor: pointer; 
+      transition: all 0.3s; 
+      font-weight: bold; /* Added strong font */
+    }
+    .pledge-option:hover { 
+      transform: scale(1.05); 
+    }
+    .submit-btn { 
+      background-color: #00796b; 
+      color: white; 
+      padding: 12px 20px; 
+      border: none; 
+      border-radius: 5px; 
+      font-size: 18px; 
+      cursor: pointer; 
+      transition: background 0.3s; 
+    }
+    .submit-btn:hover { 
+      background-color: #004d40; 
+    }
+    .share-container { 
+      display: none; 
+      margin-top: 20px; 
+    }
+    .share-container p { 
+      font-size: 18px; 
+      color: #004d40; 
+    }
+    .progress-bar { 
+      background-color: #eeeeee; 
+      border-radius: 20px; 
+      margin-top: 20px; 
+      overflow: hidden; 
+    }
+    .progress { 
+      background-color: #00796b; 
+      height: 20px; 
+      width: 0%; 
+      transition: width 0.3s; 
+    }
   </style>
 </head>
 <body>
