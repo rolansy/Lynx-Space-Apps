@@ -27,11 +27,15 @@
     </style>
 </head>
 <body>
+    <audio id="background-audio" src="index.mp3" autoplay loop></audio>
     <div id="title">Welcome to the <span id="loading">.....</span></div>
-    <audio src="index.mp3" autoplay loop></audio>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js"></script>
     <script>
+        // Play audio immediately
+        const audio = document.getElementById('background-audio');
+        audio.play();
+
         // Set up the scene, camera, and renderer
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
