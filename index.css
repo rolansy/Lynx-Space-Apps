@@ -1,0 +1,21 @@
+<style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    #title {
+        position: absolute;
+        top: 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 24px;
+        color: white;
+        z-index: 10;
+    }
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    #loading {
+        animation: blink 1s infinite;
+    }
+</style>
