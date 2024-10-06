@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Land Temperature in Countries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            width: 80%;
+            height: 80%;
+            border: 2px solid white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            background: url('milky.jpeg') no-repeat center center;
+            background-size: cover;
+        }
+        iframe {
+            width: 200%;
+            height: 200%;
+            border: none;
+            position: absolute;
+            top: -50%;
+            left: -50%;
+        }
+        .reset-button, .gistemp-button {
+            position: absolute;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: starryBlink 2s infinite;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .reset-button {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .gistemp-button {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .reset-button:hover, .gistemp-button:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.1);
+        }
+
+        .reset-button:active, .gistemp-button:active {
+            transform: scale(0.9);
+        }
+
+        @keyframes starryBlink {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+        }
+    </style>
+</head>
+<body>
+    <div style="position: absolute; top: 0; width: 100%; text-align: center; border-bottom: 2px solid white; padding-bottom: 10px; background: rgba(0, 0, 0, 0.5);">
+        <h1 style="color: white; margin: 20px 0; font-family: 'Roboto', sans-serif;">Average Land Temperature in Countries</h1>
+    </div>
+    <div class="container">
+        <div id="plot" class="iframe-wrapper"></div>
+    </div>
+    <button class="reset-button" onclick="location.reload()">Reset</button>
+    <button class="gistemp-button" onclick="window.location.href='../globaltemp.html'">GISTEMP 10-year Annual LOTI Anomaly</button>
+    <script src="avgland.js"></script>
+</body>
+</html>
