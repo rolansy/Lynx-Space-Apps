@@ -17,6 +17,24 @@
         pointer-events: none;
         transition: opacity 1s ease-out;
       }
+      .next-page-button {
+        display: block;
+        width: 80%;
+        max-width: 300px;
+        margin: 50px auto;
+        padding: 15px;
+        background-color: #696969; /* Match the button color to your UI */
+        color: white;
+        border: none;
+        border-radius: 25px;
+        text-align: center;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .next-page-button:hover {
+        background-color: #3b3b3b; /* Slightly darker shade on hover */
+      }
     </style>
   </head>
   <body>
@@ -68,7 +86,7 @@
         <p>But it’s not too late. <br>This story isn’t over yet.</p>
       </blockquote>
 
-      <section class="left">
+      <section class="left"></section>
         <h2>What can we do?</h2>
         <p>
           We are the first generation to truly understand the scale of our impact—and perhaps the last with the power to fix it. Now is the time to act. To rethink our choices, adopt sustainable practices, and commit to restoring the planet’s balance. We’ve harnessed technology to build great societies; now we must use it to heal our world.
@@ -76,21 +94,21 @@
         </p>
       </section>
 
+      <button class="next-page-button" onclick="navigateToNextPage()">Next Page</button>
+
     </main>
     
     <div id="fade-out"></div>
     
     <script type="module" src="/main.js"></script>
     <script>
-      window.addEventListener('scroll', () => {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      function navigateToNextPage() {
         const fadeOutDiv = document.getElementById('fade-out');
         fadeOutDiv.style.opacity = 1;
         setTimeout(() => {
-        window.location.href = 'https://spacelynx.vercel.app/viewer/viewer.html';
+          window.location.href = 'https://spacelynx.vercel.app/viewer/viewer.html';
         }, 1000);
       }
-      });
     </script>
-    </body>
-  </html>
+  </body>
+</html>
