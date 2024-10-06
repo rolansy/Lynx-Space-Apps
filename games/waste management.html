@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Management Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #85e3ff, #ccf9ff);
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #3b5998;
+        }
+        #gameArea {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .bin {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #3b5998;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #e7f3fe;
+            border-radius: 50%; /* Circular bins */
+            transition: background-color 0.3s;
+        }
+        .bin:hover {
+            background-color: #d1e9ff; /* Change on hover */
+        }
+        .bin h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .waste-item {
+            width: 80px;
+            height: 80px;
+            background-color: #4caf50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            cursor: move;
+            border-radius: 50%; /* Circular waste items */
+            user-select: none;
+            transition: background-color 0.3s;
+        }
+        .waste-item:hover {
+            background-color: #45a049; /* Change on hover */
+        }
+        #timer {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+        #result {
+            font-size: 1.5em;
+            color: #3b5998;
+            margin-top: 20px;
+        }
+        #answers {
+            margin-top: 30px;
+            font-size: 1.2em;
+            color: #3b5998;
+            display: none; /* Hidden initially */
+        }
+        #restartButton {
+            display: none; /* Hidden initially */
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #restartButton:hover {
+            background-color: #2d4373; /* Darker on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Waste Management Simulator</h1>
+    <p>Drag and drop the waste items into the correct bins!</p>
+    <div id="timer">Time left: <span id="time">45</span>s</div>
+    <div id="gameArea">
+        <div class="bin" id="recyclable" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2>Recyclable</h2>
+        </div>
+        <div class="bin" id="compostable" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2>Compostable</h2>
+        </div>
+        <div class="bin" id="landfill" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2>Landfill</h2>
+        </div>
+    </div>
+    <div id="wasteContainer" style="display: flex; justify-content: center; flex-wrap: wrap;"></div>
+    <div id="result"></div>
+    <div id="answers"></div> <!-- Hidden initially -->
+    <button id="restartButton" onclick="resetGame()">Restart Game</button> <!-- Restart Button -->
+
+    <script>
+        const wasteItems = [
+            { name: "Plastic Bottle", type: "recyclable" },
+            { name: "Banana Peel", type: "compostable" },
+            { name: "Glass Jar", type: "recyclable" },
+            { name: "Pizza Box", type: "landfill" },
+            { name: "Eggshells", type: "compostable" },
+            { name: "Cereal Box", type: "recyclable" },
+            { name: "Straw", type: "landfill" },
+            { name: "Grass Clippings", type: "compostable" },
+            { name: "Aluminum Can", type: "recyclable" },
+            { name: "Plastic Bag", type: "landfill" },
+            { name: "Coffee Grounds", type: "compostable" },
+            { name: "Broken Mirror", type: "landfill" },
+            { name: "Cardboard", type: "recyclable" },
+            { name: "Yard Waste", type: "compostable" },
+            { name: "Steel Can", type: "recyclable" },
+            { name: "Used Napkin", type: "landfill" },
+            { name: "Plastic Wrap", type: "landfill" }, // New item for landfill
+            { name: "Pizza Slice", type: "compostable" } // New item for compostable
+        ];
+
+        const correctAnswers = {
+            recyclable: ["Plastic Bottle", "Glass Jar", "Cereal Box", "Aluminum Can", "Cardboard", "Steel Can"],
+            compostable: ["Banana Peel", "Eggshells", "Grass Clippings", "Coffee Grounds", "Yard Waste", "Pizza Slice"],
+            landfill: ["Pizza Box", "Straw", "Plastic Bag", "Broken Mirror", "Used Napkin", "Plastic Wrap"]
+        };
+
+        let score = 0;
+        let timeLeft = 45; // Increased time limit to 45 seconds
+        let timerId;
+
+        function initGame() {
+            wasteItems.sort(() => Math.random() - 0.5); // Shuffle waste items
+            const wasteContainer = document.getElementById("wasteContainer");
+            wasteContainer.innerHTML = "";
+            wasteItems.forEach(item => {
+                const wasteDiv = document.createElement("div");
+                wasteDiv.className = "waste-item";
+                wasteDiv.draggable = true;
+                wasteDiv.ondragstart = (event) => event.dataTransfer.setData("text", item.type);
+                wasteDiv.innerText = item.name;
+                wasteContainer.appendChild(wasteDiv);
+            });
+            startTimer();
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            const targetBin = event.target.id;
+
+            // Increase score without alerting on incorrect drop
+            if (targetBin === data) {
+                score++;
+                document.getElementById("result").innerText = `Score: ${score}`;
+            }
+            // No alert for incorrect drops
+        }
+
+        function startTimer() {
+            timerId = setInterval(() => {
+                timeLeft--;
+                document.getElementById("time").innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    alert(`Time's up! Your score is: ${score}`);
+                    showAnswers(); // Show answers when time's up
+                    document.getElementById("restartButton").style.display = "block"; // Show restart button
+                }
+            }, 1000);
+        }
+
+        function showAnswers() {
+            const answersDiv = document.getElementById("answers");
+            answersDiv.style.display = "block"; // Show answers section
+            answersDiv.innerHTML = "<h2>Correct Answers:</h2>";
+
+            for (const [key, items] of Object.entries(correctAnswers)) {
+                answersDiv.innerHTML += `<h3>${key.charAt(0).toUpperCase() + key.slice(1)}:</h3><p>${items.join(", ")}</p>`;
+            }
+        }
+
+        function resetGame() {
+            score = 0;
+            timeLeft = 45; // Reset time limit to 45 seconds
+            document.getElementById("result").innerText = "";
+            document.getElementById("answers").style.display = "none"; // Hide answers section
+            document.getElementById("restartButton").style.display = "none"; // Hide restart button
+            initGame();
+        }
+
+        // Start the game initially
+        initGame();
+    </script>
+</body>
+</html>
