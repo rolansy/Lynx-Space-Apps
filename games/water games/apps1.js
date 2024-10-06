@@ -4,7 +4,7 @@ canvas.width = 400;
 canvas.height = 500;
 
 let score = 0;
-let gameSpeed = 2;
+let gameSpeed = 1; // Reduced initial speed
 let timeLimit = 30;
 let gameInterval;
 let timeInterval;
@@ -104,12 +104,17 @@ function updateTrash() {
     }
 }
 
-// Function to move the bucket with arrow keys
-document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft' && bucket.x > 0) {
-        bucket.x -= 30;
-    } else if (e.key === 'ArrowRight' && bucket.x + bucket.width < canvas.width) {
-        bucket.x += 30;
+// Function to move the bucket with mouse
+canvas.addEventListener('mousemove', function (e) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    bucket.x = mouseX - bucket.width / 2;
+
+    // Ensure the bucket stays within canvas bounds
+    if (bucket.x < 0) {
+        bucket.x = 0;
+    } else if (bucket.x + bucket.width > canvas.width) {
+        bucket.x = canvas.width - bucket.width;
     }
 });
 
@@ -138,7 +143,7 @@ function gameLoop() {
 
     // Increase difficulty as the game progresses
     if (score % 10 === 0 && gameSpeed < 10) {
-        gameSpeed += 0.01;
+        gameSpeed += 0.005; // Reduced speed increment
     }
 
     requestAnimationFrame(gameLoop);
