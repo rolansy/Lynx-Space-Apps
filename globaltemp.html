@@ -3,28 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Slider</title>
+    <title>GISTEMP Io-year Annual LOTI Anomaly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
+            font-family: 'Roboto', sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            overflow: hidden;
+            position: relative;
         }
-        #video {
-            display: none; /* Hide the video element */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            border: 2px solid white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            text-align: center;
         }
         #canvas {
-            width: 640px;
-            height: 360px;
+            width: 100%;
+            height: auto;
             background-color: #000;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
         #customControls {
             display: flex;
             align-items: center;
+            justify-content: center;
             margin-top: 20px;
         }
         #yearSlider {
@@ -73,20 +96,53 @@
         #yearDisplay {
             font-size: 18px;
             margin-left: 10px;
+            color: white;
+        }
+        .reset-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: starryBlink 2s infinite;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .reset-button:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.1);
+        }
+        .reset-button:active {
+            transform: scale(0.9);
+        }
+        @keyframes starryBlink {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
         }
     </style>
 </head>
 <body>
-    <video id="video">
-        <source src="data space/globaltempslider.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <canvas id="canvas" width="640" height="360"></canvas>
-    <div id="customControls">
-        <button id="playPauseButton">Play</button>
-        <input type="range" id="yearSlider" min="1889" max="2023" value="1889">
-        <span id="yearDisplay">1889</span>
+    <div style="position: absolute; top: 0; width: 100%; text-align: center; border-bottom: 2px solid white; padding-bottom: 10px; background: rgba(0, 0, 0, 0.5);">
+        <h1 style="color: white; margin: 20px 0; font-family: 'Roboto', sans-serif;">GISTEMP Io-year Annual LOTI Anomaly</h1>
     </div>
+    <div class="container">
+        <video id="video" style="display: none;">
+            <source src="data space/globaltempslider.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <canvas id="canvas" width="640" height="360"></canvas>
+        <div id="customControls">
+            <button id="playPauseButton">Play</button>
+            <input type="range" id="yearSlider" min="1889" max="2023" value="1889">
+            <span id="yearDisplay">1889</span>
+        </div>
+    </div>
+    <button class="reset-button" onclick="location.reload()">Reset</button>
 
     <script>
         const video = document.getElementById('video');
@@ -100,7 +156,7 @@
         const videoDuration = 33;
         // Range of years
         const startYear = 1889;
-        const endYear = 2023;
+        const endYear = 2021;
         const totalYears = endYear - startYear;
     
         function drawFrame() {
