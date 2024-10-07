@@ -44,6 +44,12 @@
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
             border-left: 5px solid #00796b;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        section.visible {
+            opacity: 1;
         }
 
         section h2 {
@@ -114,5 +120,27 @@
     <footer>
         <p>&copy; 2024 Our Climate Change Stories</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            const options = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
