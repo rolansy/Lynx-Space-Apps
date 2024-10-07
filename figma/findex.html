@@ -29,7 +29,13 @@
             cursor: pointer;
             font-size: 16px;
             opacity: 0;
-            transition: opacity 2s;
+            transition: opacity 2s, background-color 0.3s;
+        }
+        #next-button:hover {
+            background-color: #0056b3;
+        }
+        #next-button.clicked {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -40,8 +46,12 @@
     
     <script>
         function loadNextPage() {
-            // Redirect to the next page URL
-            window.location.href = 'https://lynxclimatestory.vercel.app/';
+            var nextButton = document.getElementById('next-button');
+            nextButton.classList.add('clicked');
+            setTimeout(function() {
+                // Redirect to the next page URL
+                window.location.href = 'https://lynxclimatestory.vercel.app/';
+            }, 300); // Delay to allow the animation to play
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -53,7 +63,7 @@
             setTimeout(function() {
                 var nextButton = document.getElementById('next-button');
                 nextButton.style.opacity = 1;
-            }, 20000); // 15 seconds
+            }, 20000); // 20 seconds
         });
     </script>
 </body>
