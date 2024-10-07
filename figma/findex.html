@@ -11,6 +11,7 @@
             height: 100%;
             overflow: hidden;
             position: relative;
+            transition: opacity 1s;
         }
         iframe {
             border: none;
@@ -37,6 +38,9 @@
         #next-button.clicked {
             background-color: #0056b3;
         }
+        .fade-out {
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -48,10 +52,11 @@
         function loadNextPage() {
             var nextButton = document.getElementById('next-button');
             nextButton.classList.add('clicked');
+            document.body.classList.add('fade-out');
             setTimeout(function() {
                 // Redirect to the next page URL
                 window.location.href = 'https://lynxclimatestory.vercel.app/';
-            }, 300); // Delay to allow the animation to play
+            }, 1000); // Delay to allow the fade-out animation to play
         }
 
         document.addEventListener('DOMContentLoaded', function() {
