@@ -28,6 +28,8 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            opacity: 0;
+            transition: opacity 2s;
         }
     </style>
 </head>
@@ -47,6 +49,11 @@
             audio.play().catch(function(error) {
                 console.log('Autoplay was prevented:', error);
             });
+
+            setTimeout(function() {
+                var nextButton = document.getElementById('next-button');
+                nextButton.style.opacity = 1;
+            }, 20000); // 15 seconds
         });
     </script>
 </body>
